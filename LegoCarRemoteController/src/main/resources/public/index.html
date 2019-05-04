@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Lego Car Remote Controller</title>
+	</head>
+	
+	<body>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<!-- 
+		<div>
+        <video id="player" width="50%" height="auto" autoplay="autoplay" controls style="float:left;">
+            <source src="images/testVideo.mp4" type="video/mp4" codecs="avc1.42E01E, mp4a.40.2">
+        </video>
+        </div>
+        -->
+
+        <button>Ultrasound sensor on/off</button>
+        <button>Camera on/off</button>
+        <button>Button to give voice commands</button>	
+	
+        <div>
+            <div>
+                <input value="upleft" type="image" src="images/arrow_up_left.png" value="up-left" style="height:100px; width:100px" onclick="moveCommand(this);" />
+                <input value="up" type="image" src="images/arrow_up.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="upright" type="image" src="images/arrow_up_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+            </div>
+            <div>
+                <input value="left" type="image" src="images/arrow_left.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="stop" type="image" src="images/stop.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="right" type="image" src="images/arrow_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+            </div>
+            <div>
+                <input value="downleft" type="image" src="images/arrow_down_left.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="down" type="image" src="images/arrow_down.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="downright" type="image" src="images/arrow_down_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+            </div>
+        </div>
+	</body>
+	
+	<script>
+	
+		function moveCommand(btn) {
+			move = btn.value;
+			var xhttp = new XMLHttpRequest();
+			
+			xhttp.onreadystatechange=function() {
+			  if (this.readyState == 4 && this.status == 200) 
+			  {
+			    document.getElementById("demo").innerHTML = this.responseText;
+			  }
+			};
+			
+			xhttp.open("GET", "/kafka/publish/" + move, true);
+			xhttp.send();
+		}
+	
+	</script>
+</html>
