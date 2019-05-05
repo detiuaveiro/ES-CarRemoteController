@@ -17,7 +17,7 @@ public class KafkaProducerCarControls {
 
 	@Autowired
 	private KafkaTemplate<String, Command> kafkaTemplate;
-	private static final String TOPIC = "CarCommands";
+	private static final String TOPIC = "ESp1g2Car";
 	
 	/*@GetMapping("/publish/{message}")
 	public String post(@PathVariable("message") final String message)
