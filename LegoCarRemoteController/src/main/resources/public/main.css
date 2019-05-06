@@ -1,0 +1,52 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,900,900i');
+
+body {
+  margin: 0;
+  font-family: 'Montserrat';
+  font-weight: 100;
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
+
+#button1 , #button2 , #button3 {
+display:inline-block;
+outline: none;
+/**other codes**/
+}
+
+#button1:focus , #button2:focus , #button3:focus {
+  outline: none;
+}
+
+.btn-active {
+  background-color: #3399ff !important;
+}
+
+.btn-inactive {
+  background-color: #ff5050 !important;
+}
+
+.btn:active,
+.btn:focus,
+.btn.active {
+ 	background-image: none;
+ 	outline: 0;
+ 	-webkit-box-shadow: none;
+	box-shadow: none;
+ }
+ 
+ .btn {
+ 	outline-color: none;
+ 	border: 0px solid red;
+ }
+ 
+ 
+

@@ -2,7 +2,11 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Lego Car Remote Controller</title>
+		<title>WebRemote</title>
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<!-- css link needs to be put after the bootstrap link to overwrite its values -->
+		<link rel="stylesheet" type="text/css" href="main.css">
 	</head>
 	
 	<body>
@@ -14,31 +18,72 @@
         </video>
         </div>
         -->
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <a class="navbar-brand" href="#">WebRemote</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <!-- <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Link</a>
+		      </li>
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          Dropdown
+		        </a>
+		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          <a class="dropdown-item" href="#">Action</a>
+		          <a class="dropdown-item" href="#">Another action</a>
+		          <div class="dropdown-divider"></div>
+		          <a class="dropdown-item" href="#">Something else here</a>
+		        </div>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link disabled" href="#">Disabled</a>
+		      </li>
+		    </ul>-->
+		  </div>
+		</nav>
 
-        <button>Ultrasound sensor on/off</button>
-        <button>Camera on/off</button>
-        <button>Button to give voice commands</button>	
+        
 	
-        <div>
+        <div align="center" style="margin: 40px 20px 40px 20px;">
             <div>
-                <input value="upleft" type="image" src="images/arrow_up_left.png" value="up-left" style="height:100px; width:100px" onclick="moveCommand(this);" />
-                <input value="up" type="image" src="images/arrow_up.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
-                <input value="upright" type="image" src="images/arrow_up_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="upleft" type="image" src="images/turn_arrow2.png" value="up-left" style="height:100px; width:100px" onclick="moveCommand(this);" />
+                <input value="up" type="image" src="images/line_arrow.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="upright" type="image" src="images/turn_arrow.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
             </div>
             <div>
-                <input value="left" type="image" src="images/arrow_left.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
-                <input value="stop" type="image" src="images/stop.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
-                <input value="right" type="image" src="images/arrow_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="left" type="image" src="images/line_arrow2.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="stop" type="image" src="images/pause1.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="right" type="image" src="images/line_arrow4.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
             </div>
             <div>
-                <input value="downleft" type="image" src="images/arrow_down_left.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
-                <input value="down" type="image" src="images/arrow_down.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
-                <input value="downright" type="image" src="images/arrow_down_right.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="downleft" type="image" src="images/turn_arrow4.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="down" type="image" src="images/line_arrow3.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
+                <input value="downright" type="image" src="images/turn_arrow3.png" style="height:100px; width:100px;" onclick="moveCommand(this);" />
             </div>
         </div>
+        
+        <div class="wrapper">
+		    <button id="button1" class="btn" style="background-color: #3399ff; height: 50px; width: 250px; color: white; margin: 10px 10px 10px 10px;" onclick="ultraSoundButton(this)">Ultrasound sensor ON</button>
+	        <button id="button2" class="btn" style="background-color: #3399ff; height: 50px; width: 250px; color: white; margin: 10px 10px 10px 10px;" onclick="cameraButton(this)">Camera ON</button>
+	        <button id="button3" class="btn" style="background-color: #ff5050; height: 50px; width: 250px; color: white; margin: 10px 10px 10px 10px;" onclick="voiceCommandButton(this)">Voice commands OFF</button>	
+		</div>
+        
+        
 	</body>
 	
 	<script>
+		ultraSoundActivation = 1;
+		cameraActivation = 1;
+		voiceControlActivation = 0;
 	
 		function moveCommand(btn) {
 			move = btn.value;
@@ -54,6 +99,52 @@
 			xhttp.open("GET", "/kafka/publish/" + move, true);
 			xhttp.send();
 		}
+		
+		function ultraSoundButton(btn) {
+			if (ultraSoundActivation === 1) {
+				ultraSoundActivation = 0;
+				btn.classList.remove("btn-active");
+				btn.classList.add("btn-inactive");
+				btn.innerHTML = "Ultrasound sensor OFF";
+			}
+			else {
+				ultraSoundActivation = 1;
+				btn.classList.remove("btn-inactive");
+				btn.classList.add("btn-active");
+				btn.innerHTML = "Ultrasound sensor ON";
+			}
+		}
+		
+		function cameraButton(btn) {
+			if (cameraActivation === 1) {
+				cameraActivation = 0;
+				btn.classList.remove("btn-active");
+				btn.classList.add("btn-inactive");
+				btn.innerHTML = "Camera OFF";
+			}
+			else {
+				cameraActivation = 1;
+				btn.classList.remove("btn-inactive");
+				btn.classList.add("btn-active");
+				btn.innerHTML = "Camera ON";
+			}
+		}
+		
+		function voiceCommandButton(btn) {
+			if (voiceControlActivation === 1) {
+				voiceControlActivation = 0;
+				btn.classList.remove("btn-active");
+				btn.classList.add("btn-inactive");
+				btn.innerHTML = "Voice commands OFF";
+			}
+			else {
+				voiceControlActivation = 1;
+				btn.classList.remove("btn-inactive");
+				btn.classList.add("btn-active");
+				btn.innerHTML = "Voice commands ON";
+			}
+		}
+		
 	
 	</script>
 </html>
