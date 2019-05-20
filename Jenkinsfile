@@ -1,25 +1,21 @@
 pipeline {
-
-
   agent any
   stages {
     stage('Build') {
-      agent {
-            docker {
-             image 'maven:3-alpine'
-             args '-v $HOME/.m2:/root/.m2'
-         }
+      steps {
+         sh “./gradlew compileJava”
       }
-      stages {
-         stage('Build') {
-             steps {
-                 sh 'mvn -B'
-             }
+    }
+    stage('Frontend') {
+      steps {
+        sh 'echo Frontend'
+      }
+    }
     stage('Backend') {
       parallel {
         stage('Unit') {
           steps {
-            sh 'echo Backend'
+             sh “./gradlew test”
           }
         }
         stage('Performence') {
@@ -35,16 +31,7 @@ pipeline {
       }
     }
 
-       stage ('Preparation') {
-           agent { label 'master'}
-           environment {
-             IP = '192.168.160.210:8092'
-           }
-           steps {
-               echo "Hello world"
-               echo "PATH=${IP}"
-          }
-      }
+
 
     stage('Deploy') {
       steps {
@@ -53,5 +40,7 @@ pipeline {
       }
     }
   }
+  environment {
+    BOOTSTRAP_SERVERS_CONFIG = '192.168.160.210:8092'
   }
 }
