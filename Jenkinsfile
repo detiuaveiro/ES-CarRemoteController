@@ -2,15 +2,17 @@ pipeline {
   agent any
   stages {
     stage('Build') {
-      steps {
-        sh 'echo Build'
+      agent {
+            docker {
+             image 'maven:3-alpine'
+             args '-v $HOME/.m2:/root/.m2'
+         }
       }
-    }
-    stage('Frontend') {
-      steps {
-        sh 'echo Frontend'
-      }
-    }
+      stages {
+         stage('Build') {
+             steps {
+                 sh 'mvn -B'
+             }
     stage('Backend') {
       parallel {
         stage('Unit') {
