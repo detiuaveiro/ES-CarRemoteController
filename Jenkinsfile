@@ -1,4 +1,6 @@
 pipeline {
+
+
   agent any
   stages {
     stage('Build') {
@@ -32,6 +34,18 @@ pipeline {
         sh 'echo Static analysis'
       }
     }
+
+       stage ('Preparation') {
+           agent { label 'master'}
+           environment {
+             IP = '192.168.160.210:8092'
+           }
+           steps {
+               echo "Hello world"
+               echo "PATH=${IP}"
+          }
+      }
+
     stage('Deploy') {
       steps {
         sh '''echo Deploy
@@ -39,7 +53,5 @@ pipeline {
       }
     }
   }
-  environment {
-    BOOTSTRAP_SERVERS_CONFIG = '192.168.160.210:8092'
   }
 }
